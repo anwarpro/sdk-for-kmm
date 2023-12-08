@@ -3,6 +3,7 @@ package io.appwrite.models
 import io.appwrite.extensions.jsonCast
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 /**
  * Document
@@ -43,7 +44,7 @@ data class Document<T>(
      * Document permissions. [Learn more about permissions](https://appwrite.io/docs/permissions).
      */
     @SerialName("\$permissions")
-    val permissions: List<Any>,
+    val permissions: List<JsonElement>,
 
     /**
      * Additional properties
@@ -68,7 +69,7 @@ data class Document<T>(
             databaseId: String,
             createdAt: String,
             updatedAt: String,
-            permissions: List<Any>,
+            permissions: List<JsonElement>,
             data: Map<String, Any>
         ) = Document<Map<String, Any>>(
             id,
@@ -90,7 +91,7 @@ data class Document<T>(
             databaseId = map["\$databaseId"] as String,
             createdAt = map["\$createdAt"] as String,
             updatedAt = map["\$updatedAt"] as String,
-            permissions = map["\$permissions"] as List<Any>,
+            permissions = map["\$permissions"] as List<JsonElement>,
             data = map.jsonCast(to = nestedType)
         )
     }

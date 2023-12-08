@@ -2,6 +2,7 @@ package io.appwrite.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 /**
  * File
@@ -36,7 +37,7 @@ data class File(
      * File permissions. [Learn more about permissions](https://appwrite.io/docs/permissions).
      */
     @SerialName("\$permissions")
-    val permissions: List<Any>,
+    val permissions: List<JsonElement>,
 
     /**
      * File name.
@@ -74,7 +75,7 @@ data class File(
     @SerialName("chunksUploaded")
     val chunksUploaded: Long,
 
-) {
+    ) {
     fun toMap(): Map<String, Any> = mapOf(
         "\$id" to id as Any,
         "bucketId" to bucketId as Any,
@@ -99,7 +100,7 @@ data class File(
             bucketId = map["bucketId"] as String,
             createdAt = map["\$createdAt"] as String,
             updatedAt = map["\$updatedAt"] as String,
-            permissions = map["\$permissions"] as List<Any>,
+            permissions = map["\$permissions"] as List<JsonElement>,
             name = map["name"] as String,
             signature = map["signature"] as String,
             mimeType = map["mimeType"] as String,

@@ -2,6 +2,7 @@ package io.appwrite.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 /**
  * Execution
@@ -30,7 +31,7 @@ data class Execution(
      * Execution roles.
      */
     @SerialName("\$permissions")
-    val permissions: List<Any>,
+    val permissions: List<JsonElement>,
 
     /**
      * Function ID.
@@ -104,7 +105,7 @@ data class Execution(
     @SerialName("duration")
     val duration: Double,
 
-) {
+    ) {
     fun toMap(): Map<String, Any> = mapOf(
         "\$id" to id as Any,
         "\$createdAt" to createdAt as Any,
@@ -133,16 +134,24 @@ data class Execution(
             id = map["\$id"] as String,
             createdAt = map["\$createdAt"] as String,
             updatedAt = map["\$updatedAt"] as String,
-            permissions = map["\$permissions"] as List<Any>,
+            permissions = map["\$permissions"] as List<JsonElement>,
             functionId = map["functionId"] as String,
             trigger = map["trigger"] as String,
             status = map["status"] as String,
             requestMethod = map["requestMethod"] as String,
             requestPath = map["requestPath"] as String,
-            requestHeaders = (map["requestHeaders"] as List<Map<String, Any>>).map { Headers.from(map = it) },
+            requestHeaders = (map["requestHeaders"] as List<Map<String, Any>>).map {
+                Headers.from(
+                    map = it
+                )
+            },
             responseStatusCode = (map["responseStatusCode"] as Number).toLong(),
             responseBody = map["responseBody"] as String,
-            responseHeaders = (map["responseHeaders"] as List<Map<String, Any>>).map { Headers.from(map = it) },
+            responseHeaders = (map["responseHeaders"] as List<Map<String, Any>>).map {
+                Headers.from(
+                    map = it
+                )
+            },
             logs = map["logs"] as String,
             errors = map["errors"] as String,
             duration = (map["duration"] as Number).toDouble(),

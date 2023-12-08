@@ -2,6 +2,7 @@ package io.appwrite.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 /**
  * User
@@ -48,7 +49,7 @@ data class User<T>(
      * Password hashing algorithm configuration.
      */
     @SerialName("hashOptions")
-    var hashOptions: Any?,
+    var hashOptions: JsonElement?,
 
     /**
      * User registration date in ISO 8601 format.
@@ -66,7 +67,7 @@ data class User<T>(
      * Labels for the user.
      */
     @SerialName("labels")
-    val labels: List<Any>,
+    val labels: List<JsonElement>,
 
     /**
      * Password update time in ISO 8601 format.
@@ -110,7 +111,7 @@ data class User<T>(
     @SerialName("accessedAt")
     val accessedAt: String,
 
-) {
+    ) {
     fun toMap(): Map<String, Any> = mapOf(
         "\$id" to id as Any,
         "\$createdAt" to createdAt as Any,
@@ -139,10 +140,10 @@ data class User<T>(
             name: String,
             password: String?,
             hash: String?,
-            hashOptions: Any?,
+            hashOptions: JsonElement?,
             registration: String,
             status: Boolean,
-            labels: List<Any>,
+            labels: List<JsonElement>,
             passwordUpdate: String,
             email: String,
             phone: String,
@@ -181,10 +182,10 @@ data class User<T>(
             name = map["name"] as String,
             password = map["password"] as? String?,
             hash = map["hash"] as? String?,
-            hashOptions = map["hashOptions"] as? Any?,
+            hashOptions = map["hashOptions"] as? JsonElement?,
             registration = map["registration"] as String,
             status = map["status"] as Boolean,
-            labels = map["labels"] as List<Any>,
+            labels = map["labels"] as List<JsonElement>,
             passwordUpdate = map["passwordUpdate"] as String,
             email = map["email"] as String,
             phone = map["phone"] as String,

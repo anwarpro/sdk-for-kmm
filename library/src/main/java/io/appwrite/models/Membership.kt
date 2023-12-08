@@ -2,6 +2,7 @@ package io.appwrite.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 /**
  * Membership
@@ -78,9 +79,9 @@ data class Membership(
      * User list of roles
      */
     @SerialName("roles")
-    val roles: List<Any>,
+    val roles: List<JsonElement>,
 
-) {
+    ) {
     fun toMap(): Map<String, Any> = mapOf(
         "\$id" to id as Any,
         "\$createdAt" to createdAt as Any,
@@ -113,7 +114,7 @@ data class Membership(
             invited = map["invited"] as String,
             joined = map["joined"] as String,
             confirm = map["confirm"] as Boolean,
-            roles = map["roles"] as List<Any>,
+            roles = map["roles"] as List<JsonElement>,
         )
     }
 }
