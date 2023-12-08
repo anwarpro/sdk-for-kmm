@@ -1,82 +1,83 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Membership
  */
+@Serializable
 data class Membership(
     /**
      * Membership ID.
      */
-    @SerializedName("\$id")
+    @SerialName("\$id")
     val id: String,
 
     /**
      * Membership creation date in ISO 8601 format.
      */
-    @SerializedName("\$createdAt")
+    @SerialName("\$createdAt")
     val createdAt: String,
 
     /**
      * Membership update date in ISO 8601 format.
      */
-    @SerializedName("\$updatedAt")
+    @SerialName("\$updatedAt")
     val updatedAt: String,
 
     /**
      * User ID.
      */
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String,
 
     /**
      * User name.
      */
-    @SerializedName("userName")
+    @SerialName("userName")
     val userName: String,
 
     /**
      * User email address.
      */
-    @SerializedName("userEmail")
+    @SerialName("userEmail")
     val userEmail: String,
 
     /**
      * Team ID.
      */
-    @SerializedName("teamId")
+    @SerialName("teamId")
     val teamId: String,
 
     /**
      * Team name.
      */
-    @SerializedName("teamName")
+    @SerialName("teamName")
     val teamName: String,
 
     /**
      * Date, the user has been invited to join the team in ISO 8601 format.
      */
-    @SerializedName("invited")
+    @SerialName("invited")
     val invited: String,
 
     /**
      * Date, the user has accepted the invitation to join the team in ISO 8601 format.
      */
-    @SerializedName("joined")
+    @SerialName("joined")
     val joined: String,
 
     /**
      * User confirmation status, true if the user has joined the team or false otherwise.
      */
-    @SerializedName("confirm")
+    @SerialName("confirm")
     val confirm: Boolean,
 
     /**
      * User list of roles
      */
-    @SerializedName("roles")
+    @SerialName("roles")
     val roles: List<Any>,
 
 ) {

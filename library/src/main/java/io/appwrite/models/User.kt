@@ -1,112 +1,113 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * User
  */
+@Serializable
 data class User<T>(
     /**
      * User ID.
      */
-    @SerializedName("\$id")
+    @SerialName("\$id")
     val id: String,
 
     /**
      * User creation date in ISO 8601 format.
      */
-    @SerializedName("\$createdAt")
+    @SerialName("\$createdAt")
     val createdAt: String,
 
     /**
      * User update date in ISO 8601 format.
      */
-    @SerializedName("\$updatedAt")
+    @SerialName("\$updatedAt")
     val updatedAt: String,
 
     /**
      * User name.
      */
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
     /**
      * Hashed user password.
      */
-    @SerializedName("password")
+    @SerialName("password")
     var password: String?,
 
     /**
      * Password hashing algorithm.
      */
-    @SerializedName("hash")
+    @SerialName("hash")
     var hash: String?,
 
     /**
      * Password hashing algorithm configuration.
      */
-    @SerializedName("hashOptions")
+    @SerialName("hashOptions")
     var hashOptions: Any?,
 
     /**
      * User registration date in ISO 8601 format.
      */
-    @SerializedName("registration")
+    @SerialName("registration")
     val registration: String,
 
     /**
      * User status. Pass `true` for enabled and `false` for disabled.
      */
-    @SerializedName("status")
+    @SerialName("status")
     val status: Boolean,
 
     /**
      * Labels for the user.
      */
-    @SerializedName("labels")
+    @SerialName("labels")
     val labels: List<Any>,
 
     /**
      * Password update time in ISO 8601 format.
      */
-    @SerializedName("passwordUpdate")
+    @SerialName("passwordUpdate")
     val passwordUpdate: String,
 
     /**
      * User email address.
      */
-    @SerializedName("email")
+    @SerialName("email")
     val email: String,
 
     /**
      * User phone number in E.164 format.
      */
-    @SerializedName("phone")
+    @SerialName("phone")
     val phone: String,
 
     /**
      * Email verification status.
      */
-    @SerializedName("emailVerification")
+    @SerialName("emailVerification")
     val emailVerification: Boolean,
 
     /**
      * Phone verification status.
      */
-    @SerializedName("phoneVerification")
+    @SerialName("phoneVerification")
     val phoneVerification: Boolean,
 
     /**
      * User preferences as a key-value object
      */
-    @SerializedName("prefs")
+    @SerialName("prefs")
     val prefs: Preferences<T>,
 
     /**
      * Most recent access date in ISO 8601 format. This attribute is only updated again after 24 hours.
      */
-    @SerializedName("accessedAt")
+    @SerialName("accessedAt")
     val accessedAt: String,
 
 ) {

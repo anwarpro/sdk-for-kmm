@@ -1,40 +1,41 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Token
  */
+@Serializable
 data class Token(
     /**
      * Token ID.
      */
-    @SerializedName("\$id")
+    @SerialName("\$id")
     val id: String,
 
     /**
      * Token creation date in ISO 8601 format.
      */
-    @SerializedName("\$createdAt")
+    @SerialName("\$createdAt")
     val createdAt: String,
 
     /**
      * User ID.
      */
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String,
 
     /**
      * Token secret key. This will return an empty string unless the response is returned using an API key or as part of a webhook payload.
      */
-    @SerializedName("secret")
+    @SerialName("secret")
     val secret: String,
 
     /**
      * Token expiration date in ISO 8601 format.
      */
-    @SerializedName("expire")
+    @SerialName("expire")
     val expire: String,
 
 ) {

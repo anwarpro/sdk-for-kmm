@@ -1,16 +1,18 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
 import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Preferences
  */
+@Serializable
 data class Preferences<T>(
     /**
      * Additional properties
      */
-    @SerializedName("data")
+    @SerialName("data")
     val data: T
 ) {
     fun toMap(): Map<String, Any> = mapOf(

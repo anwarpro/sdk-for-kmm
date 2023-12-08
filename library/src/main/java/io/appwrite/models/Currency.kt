@@ -1,52 +1,53 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Currency
  */
+@Serializable
 data class Currency(
     /**
      * Currency symbol.
      */
-    @SerializedName("symbol")
+    @SerialName("symbol")
     val symbol: String,
 
     /**
      * Currency name.
      */
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
     /**
      * Currency native symbol.
      */
-    @SerializedName("symbolNative")
+    @SerialName("symbolNative")
     val symbolNative: String,
 
     /**
      * Number of decimal digits.
      */
-    @SerializedName("decimalDigits")
+    @SerialName("decimalDigits")
     val decimalDigits: Long,
 
     /**
      * Currency digit rounding.
      */
-    @SerializedName("rounding")
+    @SerialName("rounding")
     val rounding: Double,
 
     /**
      * Currency code in [ISO 4217-1](http://en.wikipedia.org/wiki/ISO_4217) three-character format.
      */
-    @SerializedName("code")
+    @SerialName("code")
     val code: String,
 
     /**
      * Currency plural name
      */
-    @SerializedName("namePlural")
+    @SerialName("namePlural")
     val namePlural: String,
 
 ) {

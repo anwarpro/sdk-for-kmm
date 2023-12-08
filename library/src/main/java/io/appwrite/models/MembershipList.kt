@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Memberships List
  */
+@Serializable
 data class MembershipList(
     /**
      * Total number of memberships documents that matched your query.
      */
-    @SerializedName("total")
+    @SerialName("total")
     val total: Long,
 
     /**
      * List of memberships.
      */
-    @SerializedName("memberships")
+    @SerialName("memberships")
     val memberships: List<Membership>,
 
 ) {

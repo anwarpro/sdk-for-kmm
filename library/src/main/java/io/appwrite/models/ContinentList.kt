@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Continents List
  */
+@Serializable
 data class ContinentList(
     /**
      * Total number of continents documents that matched your query.
      */
-    @SerializedName("total")
+    @SerialName("total")
     val total: Long,
 
     /**
      * List of continents.
      */
-    @SerializedName("continents")
+    @SerialName("continents")
     val continents: List<Continent>,
 
 ) {

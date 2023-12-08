@@ -1,160 +1,161 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Session
  */
+@Serializable
 data class Session(
     /**
      * Session ID.
      */
-    @SerializedName("\$id")
+    @SerialName("\$id")
     val id: String,
 
     /**
      * Session creation date in ISO 8601 format.
      */
-    @SerializedName("\$createdAt")
+    @SerialName("\$createdAt")
     val createdAt: String,
 
     /**
      * User ID.
      */
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String,
 
     /**
      * Session expiration date in ISO 8601 format.
      */
-    @SerializedName("expire")
+    @SerialName("expire")
     val expire: String,
 
     /**
      * Session Provider.
      */
-    @SerializedName("provider")
+    @SerialName("provider")
     val provider: String,
 
     /**
      * Session Provider User ID.
      */
-    @SerializedName("providerUid")
+    @SerialName("providerUid")
     val providerUid: String,
 
     /**
      * Session Provider Access Token.
      */
-    @SerializedName("providerAccessToken")
+    @SerialName("providerAccessToken")
     val providerAccessToken: String,
 
     /**
      * The date of when the access token expires in ISO 8601 format.
      */
-    @SerializedName("providerAccessTokenExpiry")
+    @SerialName("providerAccessTokenExpiry")
     val providerAccessTokenExpiry: String,
 
     /**
      * Session Provider Refresh Token.
      */
-    @SerializedName("providerRefreshToken")
+    @SerialName("providerRefreshToken")
     val providerRefreshToken: String,
 
     /**
      * IP in use when the session was created.
      */
-    @SerializedName("ip")
+    @SerialName("ip")
     val ip: String,
 
     /**
      * Operating system code name. View list of [available options](https://github.com/appwrite/appwrite/blob/master/docs/lists/os.json).
      */
-    @SerializedName("osCode")
+    @SerialName("osCode")
     val osCode: String,
 
     /**
      * Operating system name.
      */
-    @SerializedName("osName")
+    @SerialName("osName")
     val osName: String,
 
     /**
      * Operating system version.
      */
-    @SerializedName("osVersion")
+    @SerialName("osVersion")
     val osVersion: String,
 
     /**
      * Client type.
      */
-    @SerializedName("clientType")
+    @SerialName("clientType")
     val clientType: String,
 
     /**
      * Client code name. View list of [available options](https://github.com/appwrite/appwrite/blob/master/docs/lists/clients.json).
      */
-    @SerializedName("clientCode")
+    @SerialName("clientCode")
     val clientCode: String,
 
     /**
      * Client name.
      */
-    @SerializedName("clientName")
+    @SerialName("clientName")
     val clientName: String,
 
     /**
      * Client version.
      */
-    @SerializedName("clientVersion")
+    @SerialName("clientVersion")
     val clientVersion: String,
 
     /**
      * Client engine name.
      */
-    @SerializedName("clientEngine")
+    @SerialName("clientEngine")
     val clientEngine: String,
 
     /**
      * Client engine name.
      */
-    @SerializedName("clientEngineVersion")
+    @SerialName("clientEngineVersion")
     val clientEngineVersion: String,
 
     /**
      * Device name.
      */
-    @SerializedName("deviceName")
+    @SerialName("deviceName")
     val deviceName: String,
 
     /**
      * Device brand name.
      */
-    @SerializedName("deviceBrand")
+    @SerialName("deviceBrand")
     val deviceBrand: String,
 
     /**
      * Device model name.
      */
-    @SerializedName("deviceModel")
+    @SerialName("deviceModel")
     val deviceModel: String,
 
     /**
      * Country two-character ISO 3166-1 alpha code.
      */
-    @SerializedName("countryCode")
+    @SerialName("countryCode")
     val countryCode: String,
 
     /**
      * Country name.
      */
-    @SerializedName("countryName")
+    @SerialName("countryName")
     val countryName: String,
 
     /**
      * Returns true if this the current user session.
      */
-    @SerializedName("current")
+    @SerialName("current")
     val current: Boolean,
 
 ) {

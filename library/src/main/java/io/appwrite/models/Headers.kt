@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Headers
  */
+@Serializable
 data class Headers(
     /**
      * Header name.
      */
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
     /**
      * Header value.
      */
-    @SerializedName("value")
+    @SerialName("value")
     val value: String,
 
 ) {

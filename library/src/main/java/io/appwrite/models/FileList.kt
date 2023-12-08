@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Files List
  */
+@Serializable
 data class FileList(
     /**
      * Total number of files documents that matched your query.
      */
-    @SerializedName("total")
+    @SerialName("total")
     val total: Long,
 
     /**
      * List of files.
      */
-    @SerializedName("files")
+    @SerialName("files")
     val files: List<File>,
 
 ) {

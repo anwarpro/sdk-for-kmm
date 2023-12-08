@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Country
  */
+@Serializable
 data class Country(
     /**
      * Country name.
      */
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
     /**
      * Country two-character ISO 3166-1 alpha code.
      */
-    @SerializedName("code")
+    @SerialName("code")
     val code: String,
 
 ) {
