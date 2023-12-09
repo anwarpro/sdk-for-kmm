@@ -1,49 +1,50 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Team
  */
+@Serializable
 data class Team<T>(
     /**
      * Team ID.
      */
-    @SerializedName("\$id")
+    @SerialName("\$id")
     val id: String,
 
     /**
      * Team creation date in ISO 8601 format.
      */
-    @SerializedName("\$createdAt")
+    @SerialName("\$createdAt")
     val createdAt: String,
 
     /**
      * Team update date in ISO 8601 format.
      */
-    @SerializedName("\$updatedAt")
+    @SerialName("\$updatedAt")
     val updatedAt: String,
 
     /**
      * Team name.
      */
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
     /**
      * Total number of team members.
      */
-    @SerializedName("total")
+    @SerialName("total")
     val total: Long,
 
     /**
      * Team preferences as a key-value object
      */
-    @SerializedName("prefs")
+    @SerialName("prefs")
     val prefs: Preferences<T>,
 
-) {
+    ) {
     fun toMap(): Map<String, Any> = mapOf(
         "\$id" to id as Any,
         "\$createdAt" to createdAt as Any,
@@ -80,7 +81,7 @@ data class Team<T>(
             updatedAt = map["\$updatedAt"] as String,
             name = map["name"] as String,
             total = (map["total"] as Number).toLong(),
-            prefs = Preferences.from(map = map["prefs"] as Map<String, Any>, nestedType),
+            prefs = Preferences.from(map = map["prefs"] as Map<String, Any>),
         )
     }
 }

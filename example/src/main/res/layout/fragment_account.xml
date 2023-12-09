@@ -35,7 +35,7 @@
                 android:layout_marginTop="16dp"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
-                android:text="test@test.com"
+                android:text="anwar@gmail.com"
                 app:layout_constraintStart_toStartOf="@id/responseTV"
                 app:layout_constraintTop_toBottomOf="@id/responseTV" />
 
@@ -47,7 +47,7 @@
                 android:layout_marginTop="16dp"
                 android:hint="password"
                 android:inputType="textPassword"
-                android:text="testtest"
+                android:text="34722645"
                 app:layout_constraintStart_toStartOf="@id/email"
                 app:layout_constraintTop_toBottomOf="@id/email" />
 

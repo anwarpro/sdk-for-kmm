@@ -3,19 +3,27 @@ package io.appwrite.services
 import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.extensions.forEachAsync
-import io.appwrite.extensions.fromJson
-import io.appwrite.extensions.jsonCast
-import io.appwrite.models.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.IO
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.WebSocket
-import okhttp3.WebSocketListener
-import okhttp3.internal.concurrent.TaskRunner
-import okhttp3.internal.ws.RealWebSocket
-import java.util.*
-import android.util.Log
+import io.appwrite.models.RealtimeCallback
+import io.appwrite.models.RealtimeResponse
+import io.appwrite.models.RealtimeResponseEvent
+import io.appwrite.models.RealtimeSubscription
+import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
+import io.ktor.client.plugins.websocket.webSocketSession
+import io.ktor.http.HttpMethod
+import io.ktor.websocket.CloseReason
+import io.ktor.websocket.Frame
+import io.ktor.websocket.close
+import io.ktor.websocket.readText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import kotlin.coroutines.CoroutineContext
 
 class Realtime(client: Client) : Service(client), CoroutineScope {
@@ -25,13 +33,19 @@ class Realtime(client: Client) : Service(client), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
+    @OptIn(ExperimentalSerializationApi::class)
+    val json = Json {
+        ignoreUnknownKeys = true
+        explicitNulls = true
+    }
+
     private companion object {
         private const val TYPE_ERROR = "error"
         private const val TYPE_EVENT = "event"
 
         private const val DEBOUNCE_MILLIS = 1L
 
-        private var socket: RealWebSocket? = null
+        private var socket: DefaultClientWebSocketSession? = null
         private var activeChannels = mutableSetOf<String>()
         private var activeSubscriptions = mutableMapOf<Int, RealtimeCallback>()
 
@@ -54,30 +68,75 @@ class Realtime(client: Client) : Service(client), CoroutineScope {
                 .append("&channels[]=$it")
         }
 
-        val request = Request.Builder()
-            .url("${client.endPointRealtime}/realtime?$queryParamBuilder")
-            .build()
+        runBlocking {
+            socket = client.httpClient.webSocketSession(
+                method = HttpMethod.Get,
+                host = "${client.endPointRealtime}",
+                path = "/realtime?$queryParamBuilder"
+            )
+        }
+
+        socket?.coroutineContext?.job?.invokeOnCompletion { cause ->
+            launch {
+                while (socket?.isActive == true) {
+                    val frame = socket?.incoming?.receive()
+
+                    if (frame is Frame.Text) {
+                        val message = Json.decodeFromString<RealtimeResponse>(frame.readText())
+                        when (message.type) {
+                            TYPE_ERROR -> handleResponseError(message)
+                            TYPE_EVENT -> handleResponseEvent(message)
+                        }
+                    }
+
+                    if (frame is Frame.Close) {
+                        val timeout = getTimeout()
+
+                        println(
+                            "${this@Realtime::class.java.name}, " +
+                                    "Realtime disconnected. Re-connecting in ${timeout / 1000} seconds. "
+                        )
+
+                        launch {
+                            delay(timeout)
+                            reconnectAttempts++
+                            createSocket()
+                        }
+                    }
+                }
+            }
+        }
 
         if (socket != null) {
             reconnect = false
             closeSocket()
         }
+    }
 
-        socket = RealWebSocket(
-            taskRunner = TaskRunner.INSTANCE,
-            originalRequest = request,
-            listener = AppwriteWebSocketListener(),
-            random = Random(),
-            pingIntervalMillis = client.http.pingIntervalMillis.toLong(),
-            extensions = null,
-            minimumDeflateSize = client.http.minWebSocketMessageToCompress
-        )
+    private fun handleResponseError(message: RealtimeResponse) {
+        throw Json.decodeFromString<AppwriteException>(message.data.toString())
+    }
 
-        socket!!.connect(client.http)
+    private suspend fun handleResponseEvent(message: RealtimeResponse) {
+        val event = Json.decodeFromString<RealtimeResponseEvent<Any>>(message.data.toString())
+        if (event.channels.isEmpty()) {
+            return
+        }
+        if (!event.channels.any { activeChannels.contains(it) }) {
+            return
+        }
+        activeSubscriptions.values.forEachAsync { subscription ->
+            if (event.channels.any { subscription.channels.contains(it) }) {
+                event.payload = Json.decodeFromString(event.payload.toString())
+                subscription.callback(event)
+            }
+        }
     }
 
     private fun closeSocket() {
-        socket?.close(RealtimeCode.POLICY_VIOLATION.value, null)
+        runBlocking {
+            socket?.close(CloseReason(CloseReason.Codes.VIOLATED_POLICY, ""))
+        }
     }
 
     private fun getTimeout() = when {
@@ -134,73 +193,6 @@ class Realtime(client: Client) : Service(client), CoroutineScope {
             activeSubscriptions.values.none { callback ->
                 callback.channels.contains(channel)
             }
-        }
-    }
-
-    private inner class AppwriteWebSocketListener : WebSocketListener() {
-
-        override fun onOpen(webSocket: WebSocket, response: Response) {
-            super.onOpen(webSocket, response)
-            reconnectAttempts = 0
-        }
-
-        override fun onMessage(webSocket: WebSocket, text: String) {
-            super.onMessage(webSocket, text)
-
-            launch(IO) {
-                val message = text.fromJson<RealtimeResponse>()
-                when (message.type) {
-                    TYPE_ERROR -> handleResponseError(message)
-                    TYPE_EVENT -> handleResponseEvent(message)
-                }
-            }
-        }
-
-        private fun handleResponseError(message: RealtimeResponse) {
-            throw message.data.jsonCast<AppwriteException>()
-        }
-
-        private suspend fun handleResponseEvent(message: RealtimeResponse) {
-            val event = message.data.jsonCast<RealtimeResponseEvent<Any>>()
-            if (event.channels.isEmpty()) {
-                return
-            }
-            if (!event.channels.any { activeChannels.contains(it) }) {
-                return
-            }
-            activeSubscriptions.values.forEachAsync { subscription ->
-                if (event.channels.any { subscription.channels.contains(it) }) {
-                    event.payload = event.payload.jsonCast(subscription.payloadClass)
-                    subscription.callback(event)
-                }
-            }
-        }
-
-        override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-            super.onClosing(webSocket, code, reason)
-            if (!reconnect || code == RealtimeCode.POLICY_VIOLATION.value) {
-                reconnect = true
-                return
-            }
-
-            val timeout = getTimeout()
-
-            Log.e(
-                this@Realtime::class.java.name,
-                "Realtime disconnected. Re-connecting in ${timeout / 1000} seconds.",
-                AppwriteException(reason, code)
-            )
-
-            launch {
-                delay(timeout)
-                reconnectAttempts++
-                createSocket()
-            }
-        }
-
-        override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-            super.onFailure(webSocket, t, response)
-            t.printStackTrace()
         }
     }
 }

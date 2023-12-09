@@ -1,14 +1,20 @@
 package io.appwrite.android.ui.accounts
 
 import android.text.Editable
+import android.util.Log
 import androidx.activity.ComponentActivity
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.appwrite.android.utils.Client.client
 import io.appwrite.android.utils.Event
 import io.appwrite.exceptions.AppwriteException
-import io.appwrite.extensions.toJson
 import io.appwrite.services.Account
 import kotlinx.coroutines.launch
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class AccountsViewModel : ViewModel() {
 
@@ -26,11 +32,18 @@ class AccountsViewModel : ViewModel() {
         Account(client)
     }
 
+    @OptIn(ExperimentalSerializationApi::class)
+    private val json = Json {
+        ignoreUnknownKeys = true
+        explicitNulls = true
+    }
+
     fun onLogin(email: Editable, password: Editable) {
         viewModelScope.launch {
             try {
-                val session = accountService.createEmailSession(email.toString(), password.toString())
-                _response.postValue(Event(session.toJson()))
+                val session =
+                    accountService.createEmailSession(email.toString(), password.toString())
+                _response.postValue(Event(json.encodeToString(session)))
             } catch (e: AppwriteException) {
                 _error.postValue(Event(e))
             }
@@ -43,7 +56,7 @@ class AccountsViewModel : ViewModel() {
             try {
                 val user =
                     accountService.create(email.toString(), password.toString(), name.toString())
-                _response.postValue(Event(user.toJson()))
+                _response.postValue(Event(json.encodeToString(user)))
             } catch (e: AppwriteException) {
                 _error.postValue(Event(e))
             }
@@ -72,7 +85,8 @@ class AccountsViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val account = accountService.get()
-                _response.postValue(Event(account.toJson()))
+                Log.d("Response body", "$account")
+                _response.postValue(Event(account.toString()))
             } catch (e: AppwriteException) {
                 _error.postValue(Event(e))
             }
@@ -83,7 +97,7 @@ class AccountsViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val result = accountService.deleteSession("current")
-                _response.postValue(Event(result.toJson()))
+                _response.postValue(Event(result.toString()))
             } catch (e: AppwriteException) {
                 _error.postValue(Event(e))
             }

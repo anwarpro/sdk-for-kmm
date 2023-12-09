@@ -1,19 +1,20 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * AlgoPHPass
  */
+@Serializable
 data class AlgoPhpass(
     /**
      * Algo type.
      */
-    @SerializedName("type")
+    @SerialName("type")
     val type: String,
 
-) {
+    ) {
     fun toMap(): Map<String, Any> = mapOf(
         "type" to type as Any,
     )

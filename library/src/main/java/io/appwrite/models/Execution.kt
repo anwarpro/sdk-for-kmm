@@ -1,109 +1,111 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 /**
  * Execution
  */
+@Serializable
 data class Execution(
     /**
      * Execution ID.
      */
-    @SerializedName("\$id")
+    @SerialName("\$id")
     val id: String,
 
     /**
      * Execution creation date in ISO 8601 format.
      */
-    @SerializedName("\$createdAt")
+    @SerialName("\$createdAt")
     val createdAt: String,
 
     /**
      * Execution upate date in ISO 8601 format.
      */
-    @SerializedName("\$updatedAt")
+    @SerialName("\$updatedAt")
     val updatedAt: String,
 
     /**
      * Execution roles.
      */
-    @SerializedName("\$permissions")
-    val permissions: List<Any>,
+    @SerialName("\$permissions")
+    val permissions: List<JsonElement>,
 
     /**
      * Function ID.
      */
-    @SerializedName("functionId")
+    @SerialName("functionId")
     val functionId: String,
 
     /**
      * The trigger that caused the function to execute. Possible values can be: `http`, `schedule`, or `event`.
      */
-    @SerializedName("trigger")
+    @SerialName("trigger")
     val trigger: String,
 
     /**
      * The status of the function execution. Possible values can be: `waiting`, `processing`, `completed`, or `failed`.
      */
-    @SerializedName("status")
+    @SerialName("status")
     val status: String,
 
     /**
      * HTTP request method type.
      */
-    @SerializedName("requestMethod")
+    @SerialName("requestMethod")
     val requestMethod: String,
 
     /**
      * HTTP request path and query.
      */
-    @SerializedName("requestPath")
+    @SerialName("requestPath")
     val requestPath: String,
 
     /**
      * HTTP response headers as a key-value object. This will return only whitelisted headers. All headers are returned if execution is created as synchronous.
      */
-    @SerializedName("requestHeaders")
+    @SerialName("requestHeaders")
     val requestHeaders: List<Headers>,
 
     /**
      * HTTP response status code.
      */
-    @SerializedName("responseStatusCode")
+    @SerialName("responseStatusCode")
     val responseStatusCode: Long,
 
     /**
      * HTTP response body. This will return empty unless execution is created as synchronous.
      */
-    @SerializedName("responseBody")
+    @SerialName("responseBody")
     val responseBody: String,
 
     /**
      * HTTP response headers as a key-value object. This will return only whitelisted headers. All headers are returned if execution is created as synchronous.
      */
-    @SerializedName("responseHeaders")
+    @SerialName("responseHeaders")
     val responseHeaders: List<Headers>,
 
     /**
      * Function logs. Includes the last 4,000 characters. This will return an empty string unless the response is returned using an API key or as part of a webhook payload.
      */
-    @SerializedName("logs")
+    @SerialName("logs")
     val logs: String,
 
     /**
      * Function errors. Includes the last 4,000 characters. This will return an empty string unless the response is returned using an API key or as part of a webhook payload.
      */
-    @SerializedName("errors")
+    @SerialName("errors")
     val errors: String,
 
     /**
      * Function execution duration in seconds.
      */
-    @SerializedName("duration")
+    @SerialName("duration")
     val duration: Double,
 
-) {
+    ) {
     fun toMap(): Map<String, Any> = mapOf(
         "\$id" to id as Any,
         "\$createdAt" to createdAt as Any,
@@ -132,16 +134,24 @@ data class Execution(
             id = map["\$id"] as String,
             createdAt = map["\$createdAt"] as String,
             updatedAt = map["\$updatedAt"] as String,
-            permissions = map["\$permissions"] as List<Any>,
+            permissions = map["\$permissions"] as List<JsonElement>,
             functionId = map["functionId"] as String,
             trigger = map["trigger"] as String,
             status = map["status"] as String,
             requestMethod = map["requestMethod"] as String,
             requestPath = map["requestPath"] as String,
-            requestHeaders = (map["requestHeaders"] as List<Map<String, Any>>).map { Headers.from(map = it) },
+            requestHeaders = (map["requestHeaders"] as List<Map<String, Any>>).map {
+                Headers.from(
+                    map = it
+                )
+            },
             responseStatusCode = (map["responseStatusCode"] as Number).toLong(),
             responseBody = map["responseBody"] as String,
-            responseHeaders = (map["responseHeaders"] as List<Map<String, Any>>).map { Headers.from(map = it) },
+            responseHeaders = (map["responseHeaders"] as List<Map<String, Any>>).map {
+                Headers.from(
+                    map = it
+                )
+            },
             logs = map["logs"] as String,
             errors = map["errors"] as String,
             duration = (map["duration"] as Number).toDouble(),

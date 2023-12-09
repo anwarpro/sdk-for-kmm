@@ -10,10 +10,10 @@ import java.io.File
 
 /**
  * The Teams service allows you to group users of your project and to enable them to share read and write access to your project resources
-**/
+ **/
 class Teams : Service {
 
-    public constructor (client: Client) : super(client) { }
+    public constructor (client: Client) : super(client) {}
 
     /**
      * List teams
@@ -530,7 +530,7 @@ class Teams : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.Preferences<T> = {
-            io.appwrite.models.Preferences.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.Preferences.from(map = it as Map<String, Any>)
         }
         return client.call(
             "GET",
@@ -582,7 +582,7 @@ class Teams : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.Preferences<T> = {
-            io.appwrite.models.Preferences.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.Preferences.from(map = it as Map<String, Any>)
         }
         return client.call(
             "PUT",

@@ -1,16 +1,17 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * JWT
  */
+@Serializable
 data class Jwt(
     /**
      * JWT encoded string.
      */
-    @SerializedName("jwt")
+    @SerialName("jwt")
     val jwt: String,
 
 ) {

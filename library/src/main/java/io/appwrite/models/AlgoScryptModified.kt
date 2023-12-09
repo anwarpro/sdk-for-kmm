@@ -1,34 +1,35 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * AlgoScryptModified
  */
+@Serializable
 data class AlgoScryptModified(
     /**
      * Algo type.
      */
-    @SerializedName("type")
+    @SerialName("type")
     val type: String,
 
     /**
      * Salt used to compute hash.
      */
-    @SerializedName("salt")
+    @SerialName("salt")
     val salt: String,
 
     /**
      * Separator used to compute hash.
      */
-    @SerializedName("saltSeparator")
+    @SerialName("saltSeparator")
     val saltSeparator: String,
 
     /**
      * Key used to compute hash.
      */
-    @SerializedName("signerKey")
+    @SerialName("signerKey")
     val signerKey: String,
 
 ) {

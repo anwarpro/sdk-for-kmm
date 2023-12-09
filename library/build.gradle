@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    id 'kotlinx-atomicfu'
+    id 'kotlinx-serialization'
 }
 
 ext {
@@ -27,8 +29,6 @@ android {
     defaultConfig {
         minSdkVersion(21)
         targetSdkVersion(33)
-        versionCode = 1
-        versionName = "1.0"
         buildConfigField "String", "SDK_VERSION", "\"${PUBLISH_VERSION}\""
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -38,8 +38,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
             )
         }
     }
@@ -57,11 +57,19 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
 
-    api(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
-    api("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:okhttp-urlconnection")
-    implementation("com.squareup.okhttp3:logging-interceptor")
-    implementation("com.google.code.gson:gson:2.9.0")
+//    api(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
+//    api("com.squareup.okhttp3:okhttp")
+//    implementation("com.squareup.okhttp3:okhttp-urlconnection")
+//    implementation("com.squareup.okhttp3:logging-interceptor")
+//    implementation("com.google.code.gson:gson:2.9.0")
+//    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation("com.russhwolf:multiplatform-settings-no-arg:1.1.1")
+    def ktor_version = "2.3.7"
+    api("io.ktor:ktor-client-core:$ktor_version")
+    api("io.ktor:ktor-client-okhttp:$ktor_version")
+    api("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    api("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+    implementation("org.jetbrains.kotlinx:atomicfu:0.23.1")
 
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-common-java8:2.5.1")
@@ -74,7 +82,7 @@ dependencies {
     testImplementation "androidx.test.ext:junit-ktx:1.1.5"
     testImplementation "androidx.test:core-ktx:1.5.0"
     testImplementation "org.robolectric:robolectric:4.5.1"
-    testApi("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
 }
 
 apply from: "${rootProject.projectDir}/scripts/publish-module.gradle"

@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * LocaleCode
  */
+@Serializable
 data class LocaleCode(
     /**
      * Locale codes in [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
      */
-    @SerializedName("code")
+    @SerialName("code")
     val code: String,
 
     /**
      * Locale name
      */
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
 ) {

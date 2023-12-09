@@ -1,8 +1,10 @@
 package io.appwrite.cookies
 
 import android.os.Build
+import kotlinx.serialization.Serializable
 import java.net.HttpCookie
 
+@Serializable
 data class InternalCookie(
     val comment: String?,
     val commentURL: String?,

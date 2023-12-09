@@ -1,11 +1,11 @@
 package io.appwrite.cookies.stores
 
-import io.appwrite.cookies.InternalCookie
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import io.appwrite.cookies.InternalCookie
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.net.HttpCookie
 import java.net.URI
 
@@ -15,16 +15,17 @@ open class SharedPreferencesCookieStore(
 ) : InMemoryCookieStore(name) {
 
     private val preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
-    private val gson = Gson()
+    private val gson = Json {
+        ignoreUnknownKeys = true
+    }
 
     init {
         synchronized(SharedPreferencesCookieStore::class.java) {
             preferences.all.forEach { (key, value) ->
                 try {
                     val index = URI.create(key)
-                    val listType = object : TypeToken<MutableList<InternalCookie>>() {}.type
                     val internalCookies =
-                        gson.fromJson<MutableList<InternalCookie>>(value.toString(), listType)
+                        gson.decodeFromString<MutableList<InternalCookie>>(value.toString())
                     val cookies = internalCookies.map { it.toHttpCookie() }.toMutableList()
                     uriIndex[index] = cookies
                 } catch (exception: Throwable) {
@@ -61,8 +62,7 @@ open class SharedPreferencesCookieStore(
                 }
             }
 
-            val listType = object : TypeToken<MutableList<InternalCookie>>() {}.type
-            val json = gson.toJson(internalCookies, listType)
+            val json = gson.encodeToString(internalCookies)
 
             preferences
                 .edit()
@@ -84,8 +84,8 @@ open class SharedPreferencesCookieStore(
                     }
                 }
             }
-            val listType = object : TypeToken<MutableList<InternalCookie>>() {}.type
-            val json = gson.toJson(internalCookies, listType)
+
+            val json = gson.encodeToString(internalCookies)
 
             preferences.edit().apply {
                 when (cookies) {

@@ -1,34 +1,58 @@
 package io.appwrite.extensions
 
-import com.google.gson.Gson
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 
-val gson = Gson()
+fun JsonElement.jsonElementToMap(): Map<String, Any> {
+    val map = mutableMapOf<String, Any>()
+    if (this is JsonObject) {
+        for ((key, value) in this.entries) {
+            map[key] = when (value) {
+                is JsonPrimitive -> {
+                    when {
+                        value.isString -> value.content
+                        value.content == "true" || value.content == "false" -> value.content.toBoolean()
+                        else -> {
+                            when (val number = parseNumber(value.content)) {
+                                is Int -> number
+                                is Long -> number
+                                is Float -> number
+                                is Double -> number
+                                else -> ""
+                            }
+                        }
+                    }
+                }
 
-fun Any.toJson(): String =
-    gson.toJson(this)
+                is JsonObject -> value.jsonElementToMap()
+                is JsonArray -> value.map { it.jsonElementToMap() }
+                else -> value
+            }
+        }
+    }
 
-fun <T> String.fromJson(clazz: Class<T>): T =
-    gson.fromJson(this, clazz)
-
-inline fun <reified T> String.fromJson(): T =
-    gson.fromJson(this, T::class.java)
-
-fun <T> Any.jsonCast(to: Class<T>): T =
-    toJson().fromJson(to)
-
-inline fun <reified T> Any.jsonCast(): T =
-    toJson().fromJson(T::class.java)
-
-fun <T> Any.tryJsonCast(to: Class<T>): T? = try {
-    toJson().fromJson(to)
-} catch (ex: Exception) {
-    ex.printStackTrace()
-    null
+    return map
 }
 
-inline fun <reified T> Any.tryJsonCast(): T? = try {
-    toJson().fromJson(T::class.java)
-} catch (ex: Exception) {
-    ex.printStackTrace()
-    null
+fun parseNumber(str: String): Number? {
+    return try {
+        str.toInt()
+    } catch (e1: NumberFormatException) {
+        try {
+            str.toFloat()
+        } catch (e2: NumberFormatException) {
+            try {
+                str.toDouble()
+            } catch (e3: NumberFormatException) {
+                try {
+                    str.toLong()
+                } catch (e4: NumberFormatException) {
+                    // If none of the types match, you can handle the error or return a default value.
+                    null
+                }
+            }
+        }
+    }
 }

@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Identities List
  */
+@Serializable
 data class IdentityList(
     /**
      * Total number of identities documents that matched your query.
      */
-    @SerializedName("total")
+    @SerialName("total")
     val total: Long,
 
     /**
      * List of identities.
      */
-    @SerializedName("identities")
+    @SerialName("identities")
     val identities: List<Identity>,
 
 ) {

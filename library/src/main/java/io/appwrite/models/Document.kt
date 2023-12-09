@@ -1,52 +1,54 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 /**
  * Document
  */
+@Serializable
 data class Document<T>(
     /**
      * Document ID.
      */
-    @SerializedName("\$id")
+    @SerialName("\$id")
     val id: String,
 
     /**
      * Collection ID.
      */
-    @SerializedName("\$collectionId")
+    @SerialName("\$collectionId")
     val collectionId: String,
 
     /**
      * Database ID.
      */
-    @SerializedName("\$databaseId")
+    @SerialName("\$databaseId")
     val databaseId: String,
 
     /**
      * Document creation date in ISO 8601 format.
      */
-    @SerializedName("\$createdAt")
+    @SerialName("\$createdAt")
     val createdAt: String,
 
     /**
      * Document update date in ISO 8601 format.
      */
-    @SerializedName("\$updatedAt")
+    @SerialName("\$updatedAt")
     val updatedAt: String,
 
     /**
      * Document permissions. [Learn more about permissions](https://appwrite.io/docs/permissions).
      */
-    @SerializedName("\$permissions")
-    val permissions: List<Any>,
+    @SerialName("\$permissions")
+    val permissions: List<JsonElement>,
 
     /**
      * Additional properties
      */
-    @SerializedName("data")
+    @SerialName("data")
     val data: T
 ) {
     fun toMap(): Map<String, Any> = mapOf(
@@ -56,7 +58,7 @@ data class Document<T>(
         "\$createdAt" to createdAt as Any,
         "\$updatedAt" to updatedAt as Any,
         "\$permissions" to permissions as Any,
-        "data" to data!!.jsonCast(to = Map::class.java)
+        "data" to data as Map<String, Any>
     )
 
     companion object {
@@ -66,7 +68,7 @@ data class Document<T>(
             databaseId: String,
             createdAt: String,
             updatedAt: String,
-            permissions: List<Any>,
+            permissions: List<JsonElement>,
             data: Map<String, Any>
         ) = Document<Map<String, Any>>(
             id,
@@ -88,8 +90,8 @@ data class Document<T>(
             databaseId = map["\$databaseId"] as String,
             createdAt = map["\$createdAt"] as String,
             updatedAt = map["\$updatedAt"] as String,
-            permissions = map["\$permissions"] as List<Any>,
-            data = map.jsonCast(to = nestedType)
+            permissions = map["\$permissions"] as List<JsonElement>,
+            data = map as T
         )
     }
 }

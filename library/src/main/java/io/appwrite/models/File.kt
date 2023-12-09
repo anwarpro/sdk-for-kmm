@@ -1,79 +1,81 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 /**
  * File
  */
+@Serializable
 data class File(
     /**
      * File ID.
      */
-    @SerializedName("\$id")
+    @SerialName("\$id")
     val id: String,
 
     /**
      * Bucket ID.
      */
-    @SerializedName("bucketId")
+    @SerialName("bucketId")
     val bucketId: String,
 
     /**
      * File creation date in ISO 8601 format.
      */
-    @SerializedName("\$createdAt")
+    @SerialName("\$createdAt")
     val createdAt: String,
 
     /**
      * File update date in ISO 8601 format.
      */
-    @SerializedName("\$updatedAt")
+    @SerialName("\$updatedAt")
     val updatedAt: String,
 
     /**
      * File permissions. [Learn more about permissions](https://appwrite.io/docs/permissions).
      */
-    @SerializedName("\$permissions")
-    val permissions: List<Any>,
+    @SerialName("\$permissions")
+    val permissions: List<JsonElement>,
 
     /**
      * File name.
      */
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
     /**
      * File MD5 signature.
      */
-    @SerializedName("signature")
+    @SerialName("signature")
     val signature: String,
 
     /**
      * File mime type.
      */
-    @SerializedName("mimeType")
+    @SerialName("mimeType")
     val mimeType: String,
 
     /**
      * File original size in bytes.
      */
-    @SerializedName("sizeOriginal")
+    @SerialName("sizeOriginal")
     val sizeOriginal: Long,
 
     /**
      * Total number of chunks available
      */
-    @SerializedName("chunksTotal")
+    @SerialName("chunksTotal")
     val chunksTotal: Long,
 
     /**
      * Total number of chunks uploaded
      */
-    @SerializedName("chunksUploaded")
+    @SerialName("chunksUploaded")
     val chunksUploaded: Long,
 
-) {
+    ) {
     fun toMap(): Map<String, Any> = mapOf(
         "\$id" to id as Any,
         "bucketId" to bucketId as Any,
@@ -98,7 +100,7 @@ data class File(
             bucketId = map["bucketId"] as String,
             createdAt = map["\$createdAt"] as String,
             updatedAt = map["\$updatedAt"] as String,
-            permissions = map["\$permissions"] as List<Any>,
+            permissions = map["\$permissions"] as List<JsonElement>,
             name = map["name"] as String,
             signature = map["signature"] as String,
             mimeType = map["mimeType"] as String,

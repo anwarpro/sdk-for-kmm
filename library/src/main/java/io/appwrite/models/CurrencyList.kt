@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Currencies List
  */
+@Serializable
 data class CurrencyList(
     /**
      * Total number of currencies documents that matched your query.
      */
-    @SerializedName("total")
+    @SerialName("total")
     val total: Long,
 
     /**
      * List of currencies.
      */
-    @SerializedName("currencies")
+    @SerialName("currencies")
     val currencies: List<Currency>,
 
 ) {

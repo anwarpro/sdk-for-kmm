@@ -1,20 +1,21 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Preferences
  */
+@Serializable
 data class Preferences<T>(
     /**
      * Additional properties
      */
-    @SerializedName("data")
+    @SerialName("data")
     val data: T
 ) {
     fun toMap(): Map<String, Any> = mapOf(
-        "data" to data!!.jsonCast(to = Map::class.java)
+        "data" to data as Map<*, *>
     )
 
     companion object {
@@ -26,10 +27,9 @@ data class Preferences<T>(
 
         @Suppress("UNCHECKED_CAST")
         fun <T> from(
-            map: Map<String, Any>,
-            nestedType: Class<T>
+            map: Map<String, Any>
         ) = Preferences<T>(
-            data = map.jsonCast(to = nestedType)
+            data = map as T
         )
     }
 }

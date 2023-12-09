@@ -1,28 +1,29 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Language
  */
+@Serializable
 data class Language(
     /**
      * Language name.
      */
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
     /**
      * Language two-character ISO 639-1 codes.
      */
-    @SerializedName("code")
+    @SerialName("code")
     val code: String,
 
     /**
      * Language native name.
      */
-    @SerializedName("nativeName")
+    @SerialName("nativeName")
     val nativeName: String,
 
 ) {

@@ -1,136 +1,137 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Log
  */
+@Serializable
 data class Log(
     /**
      * Event name.
      */
-    @SerializedName("event")
+    @SerialName("event")
     val event: String,
 
     /**
      * User ID.
      */
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String,
 
     /**
      * User Email.
      */
-    @SerializedName("userEmail")
+    @SerialName("userEmail")
     val userEmail: String,
 
     /**
      * User Name.
      */
-    @SerializedName("userName")
+    @SerialName("userName")
     val userName: String,
 
     /**
      * API mode when event triggered.
      */
-    @SerializedName("mode")
+    @SerialName("mode")
     val mode: String,
 
     /**
      * IP session in use when the session was created.
      */
-    @SerializedName("ip")
+    @SerialName("ip")
     val ip: String,
 
     /**
      * Log creation date in ISO 8601 format.
      */
-    @SerializedName("time")
+    @SerialName("time")
     val time: String,
 
     /**
      * Operating system code name. View list of [available options](https://github.com/appwrite/appwrite/blob/master/docs/lists/os.json).
      */
-    @SerializedName("osCode")
+    @SerialName("osCode")
     val osCode: String,
 
     /**
      * Operating system name.
      */
-    @SerializedName("osName")
+    @SerialName("osName")
     val osName: String,
 
     /**
      * Operating system version.
      */
-    @SerializedName("osVersion")
+    @SerialName("osVersion")
     val osVersion: String,
 
     /**
      * Client type.
      */
-    @SerializedName("clientType")
+    @SerialName("clientType")
     val clientType: String,
 
     /**
      * Client code name. View list of [available options](https://github.com/appwrite/appwrite/blob/master/docs/lists/clients.json).
      */
-    @SerializedName("clientCode")
+    @SerialName("clientCode")
     val clientCode: String,
 
     /**
      * Client name.
      */
-    @SerializedName("clientName")
+    @SerialName("clientName")
     val clientName: String,
 
     /**
      * Client version.
      */
-    @SerializedName("clientVersion")
+    @SerialName("clientVersion")
     val clientVersion: String,
 
     /**
      * Client engine name.
      */
-    @SerializedName("clientEngine")
+    @SerialName("clientEngine")
     val clientEngine: String,
 
     /**
      * Client engine name.
      */
-    @SerializedName("clientEngineVersion")
+    @SerialName("clientEngineVersion")
     val clientEngineVersion: String,
 
     /**
      * Device name.
      */
-    @SerializedName("deviceName")
+    @SerialName("deviceName")
     val deviceName: String,
 
     /**
      * Device brand name.
      */
-    @SerializedName("deviceBrand")
+    @SerialName("deviceBrand")
     val deviceBrand: String,
 
     /**
      * Device model name.
      */
-    @SerializedName("deviceModel")
+    @SerialName("deviceModel")
     val deviceModel: String,
 
     /**
      * Country two-character ISO 3166-1 alpha code.
      */
-    @SerializedName("countryCode")
+    @SerialName("countryCode")
     val countryCode: String,
 
     /**
      * Country name.
      */
-    @SerializedName("countryName")
+    @SerialName("countryName")
     val countryName: String,
 
 ) {

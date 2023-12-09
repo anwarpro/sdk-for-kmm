@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Sessions List
  */
+@Serializable
 data class SessionList(
     /**
      * Total number of sessions documents that matched your query.
      */
-    @SerializedName("total")
+    @SerialName("total")
     val total: Long,
 
     /**
      * List of sessions.
      */
-    @SerializedName("sessions")
+    @SerialName("sessions")
     val sessions: List<Session>,
 
 ) {

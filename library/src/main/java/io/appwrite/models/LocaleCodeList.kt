@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Locale codes list
  */
+@Serializable
 data class LocaleCodeList(
     /**
      * Total number of localeCodes documents that matched your query.
      */
-    @SerializedName("total")
+    @SerialName("total")
     val total: Long,
 
     /**
      * List of localeCodes.
      */
-    @SerializedName("localeCodes")
+    @SerialName("localeCodes")
     val localeCodes: List<LocaleCode>,
 
 ) {
