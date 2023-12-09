@@ -1,6 +1,5 @@
 package io.appwrite.models
 
-import io.appwrite.extensions.jsonCast
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -16,7 +15,7 @@ data class Preferences<T>(
     val data: T
 ) {
     fun toMap(): Map<String, Any> = mapOf(
-        "data" to data!!.jsonCast(to = Map::class.java)
+        "data" to data as Map<*, *>
     )
 
     companion object {
@@ -28,10 +27,9 @@ data class Preferences<T>(
 
         @Suppress("UNCHECKED_CAST")
         fun <T> from(
-            map: Map<String, Any>,
-            nestedType: Class<T>
+            map: Map<String, Any>
         ) = Preferences<T>(
-            data = map.jsonCast(to = nestedType)
+            data = map as T
         )
     }
 }

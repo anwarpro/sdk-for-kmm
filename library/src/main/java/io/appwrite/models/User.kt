@@ -1,9 +1,14 @@
 package io.appwrite.models
 
+import io.appwrite.serialization.AnyValueSerializer
+import io.appwrite.serialization.ListAnyValueSerializer
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonElement
 
+/**
+ * User
+ */
 /**
  * User
  */
@@ -37,19 +42,20 @@ data class User<T>(
      * Hashed user password.
      */
     @SerialName("password")
-    var password: String?,
+    var password: String? = null,
 
     /**
      * Password hashing algorithm.
      */
     @SerialName("hash")
-    var hash: String?,
+    var hash: String? = null,
 
     /**
      * Password hashing algorithm configuration.
      */
+    @Serializable(with = AnyValueSerializer::class)
     @SerialName("hashOptions")
-    var hashOptions: JsonElement?,
+    var hashOptions: Any? = null,
 
     /**
      * User registration date in ISO 8601 format.
@@ -66,8 +72,9 @@ data class User<T>(
     /**
      * Labels for the user.
      */
+    @Serializable(with = ListAnyValueSerializer::class)
     @SerialName("labels")
-    val labels: List<JsonElement>,
+    val labels: List<@Contextual Any?>,
 
     /**
      * Password update time in ISO 8601 format.
@@ -140,10 +147,10 @@ data class User<T>(
             name: String,
             password: String?,
             hash: String?,
-            hashOptions: JsonElement?,
+            hashOptions: Any,
             registration: String,
             status: Boolean,
-            labels: List<JsonElement>,
+            labels: List<Any?>,
             passwordUpdate: String,
             email: String,
             phone: String,
@@ -151,7 +158,7 @@ data class User<T>(
             phoneVerification: Boolean,
             prefs: Preferences<Map<String, Any>>,
             accessedAt: String,
-        ) = User<Map<String, Any>>(
+        ) = User(
             id,
             createdAt,
             updatedAt,
@@ -173,8 +180,7 @@ data class User<T>(
 
         @Suppress("UNCHECKED_CAST")
         fun <T> from(
-            map: Map<String, Any>,
-            nestedType: Class<T>
+            map: Map<String, Any>
         ) = User<T>(
             id = map["\$id"] as String,
             createdAt = map["\$createdAt"] as String,
@@ -182,16 +188,16 @@ data class User<T>(
             name = map["name"] as String,
             password = map["password"] as? String?,
             hash = map["hash"] as? String?,
-            hashOptions = map["hashOptions"] as? JsonElement?,
+            hashOptions = map["hashOptions"],
             registration = map["registration"] as String,
-            status = map["status"] as Boolean,
-            labels = map["labels"] as List<JsonElement>,
+            status = map["status"].toString().toBoolean(),
+            labels = map["labels"] as List<Any>,
             passwordUpdate = map["passwordUpdate"] as String,
             email = map["email"] as String,
             phone = map["phone"] as String,
-            emailVerification = map["emailVerification"] as Boolean,
-            phoneVerification = map["phoneVerification"] as Boolean,
-            prefs = Preferences.from(map = map["prefs"] as Map<String, Any>, nestedType),
+            emailVerification = map["emailVerification"].toString().toBoolean(),
+            phoneVerification = map["phoneVerification"].toString().toBoolean(),
+            prefs = Preferences.from(map = map["prefs"] as Map<String, Any>),
             accessedAt = map["accessedAt"] as String,
         )
     }

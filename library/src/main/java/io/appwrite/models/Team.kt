@@ -44,7 +44,7 @@ data class Team<T>(
     @SerialName("prefs")
     val prefs: Preferences<T>,
 
-) {
+    ) {
     fun toMap(): Map<String, Any> = mapOf(
         "\$id" to id as Any,
         "\$createdAt" to createdAt as Any,
@@ -81,7 +81,7 @@ data class Team<T>(
             updatedAt = map["\$updatedAt"] as String,
             name = map["name"] as String,
             total = (map["total"] as Number).toLong(),
-            prefs = Preferences.from(map = map["prefs"] as Map<String, Any>, nestedType),
+            prefs = Preferences.from(map = map["prefs"] as Map<String, Any>),
         )
     }
 }

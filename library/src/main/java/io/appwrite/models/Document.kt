@@ -1,6 +1,5 @@
 package io.appwrite.models
 
-import io.appwrite.extensions.jsonCast
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
@@ -59,7 +58,7 @@ data class Document<T>(
         "\$createdAt" to createdAt as Any,
         "\$updatedAt" to updatedAt as Any,
         "\$permissions" to permissions as Any,
-        "data" to data!!.jsonCast(to = Map::class.java)
+        "data" to data as Map<String, Any>
     )
 
     companion object {
@@ -92,7 +91,7 @@ data class Document<T>(
             createdAt = map["\$createdAt"] as String,
             updatedAt = map["\$updatedAt"] as String,
             permissions = map["\$permissions"] as List<JsonElement>,
-            data = map.jsonCast(to = nestedType)
+            data = map as T
         )
     }
 }
