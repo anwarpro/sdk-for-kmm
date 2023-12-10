@@ -22,11 +22,11 @@ ext {
 version PUBLISH_VERSION
 
 android {
-    compileSdkVersion(33)
 
     defaultConfig {
         minSdkVersion(21)
-        targetSdkVersion(33)
+        targetSdkVersion(34)
+        compileSdkVersion(34)
         buildConfigField "String", "SDK_VERSION", "\"${PUBLISH_VERSION}\""
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -48,12 +48,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    namespace 'io.appwrite.appwrite'
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     api(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
     api("com.squareup.okhttp3:okhttp")
@@ -61,12 +61,12 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor")
     implementation("com.google.code.gson:gson:2.9.0")
 
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.5.1")
-    implementation("androidx.appcompat:appcompat:1.6.0")
-    implementation("androidx.fragment:fragment-ktx:1.5.5")
-    implementation("androidx.activity:activity-ktx:1.6.1")
-    implementation("androidx.browser:browser:1.4.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.6.2")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+    implementation("androidx.activity:activity-ktx:1.8.1")
+    implementation("androidx.browser:browser:1.7.0")
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation "androidx.test.ext:junit-ktx:1.1.5"

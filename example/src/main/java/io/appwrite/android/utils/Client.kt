@@ -8,8 +8,8 @@ object Client {
 
     fun create(context: Context) {
         client = Client(context)
-                .setEndpoint("https://demo.appwrite.io/v1")
-                .setProject("6070749e6acd4")
+                .setEndpoint("https://cloud.appwrite.io/v1")
+                .setProject("654078c16d6872584c53")
 
         /* Useful when testing locally */     
 //        client = Client(context)
