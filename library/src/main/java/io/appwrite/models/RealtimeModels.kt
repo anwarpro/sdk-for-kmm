@@ -1,6 +1,7 @@
 package io.appwrite.models
 
-import kotlin.collections.Collection
+import io.appwrite.json.AnyValueSerializer
+import kotlinx.serialization.Serializable
 import java.io.Closeable
 
 data class RealtimeSubscription(
@@ -15,11 +16,13 @@ data class RealtimeCallback(
     val callback: (RealtimeResponseEvent<*>) -> Unit
 )
 
+@Serializable(with = AnyValueSerializer::class)
 open class RealtimeResponse(
     val type: String,
     val data: Any
 )
 
+@Serializable(with = AnyValueSerializer::class)
 data class RealtimeResponseEvent<T>(
     val events: Collection<String>,
     val channels: Collection<String>,

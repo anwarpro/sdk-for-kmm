@@ -80,7 +80,7 @@ class AccountsViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val account = accountService.get()
-                _response.postValue(Event(json.encodeToString(account.toJsonElement())))
+                _response.postValue(Event(account.toString()))
             } catch (e: AppwriteException) {
                 _error.postValue(Event(e))
             }

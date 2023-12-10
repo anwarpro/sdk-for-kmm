@@ -4,11 +4,18 @@ import android.net.Uri
 import androidx.activity.ComponentActivity
 import io.appwrite.Client
 import io.appwrite.WebAuthComponent
+import io.appwrite.cookies.stores.CustomCookiesStorage
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.extensions.classOf
 import io.appwrite.models.*
+import io.ktor.http.Url
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import okhttp3.Cookie
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import java.net.URI
 
 /**
  * The Account service allows you to authenticate and manage a user account.
@@ -887,6 +894,9 @@ class Account : Service {
         val apiUrl = Uri.parse("${client.endPoint}${apiPath}?${apiQuery.joinToString("&")}")
         val callbackUrlScheme = "appwrite-callback-${client.config["project"]}"
 
+        val job = Job() + Dispatchers.IO
+        val task = CoroutineScope(job)
+
         WebAuthComponent.authenticate(activity, apiUrl, callbackUrlScheme) {
             if (it.isFailure) {
                 throw it.exceptionOrNull()!!
@@ -899,17 +909,17 @@ class Account : Service {
             if (key == null || secret == null) {
                 throw AppwriteException("Authentication cookie missing!")
             }
-            val cookie = Cookie.Builder()
-                .name(key)
-                .value(secret)
-                .domain(Uri.parse(client.endPoint).host!!)
-                .httpOnly()
-                .build()
 
-            client.http.cookieJar.saveFromResponse(
-                client.endPoint.toHttpUrl(),
-                listOf(cookie)
+            val cookies = io.ktor.http.Cookie(
+                name = key,
+                value = secret,
+                domain = URI(client.endPoint).host,
+                httpOnly = true
             )
+            //TODO: need to check and performance
+            task.launch {
+                CustomCookiesStorage.addCookie(Url(client.endPoint), cookies)
+            }
         }
     }
 
