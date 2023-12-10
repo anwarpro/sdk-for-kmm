@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Executions List
  */
+@Serializable
 data class ExecutionList(
     /**
      * Total number of executions documents that matched your query.
      */
-    @SerializedName("total")
+    @SerialName("total")
     val total: Long,
 
     /**
      * List of executions.
      */
-    @SerializedName("executions")
+    @SerialName("executions")
     val executions: List<Execution>,
 
 ) {

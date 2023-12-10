@@ -1,115 +1,121 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import io.appwrite.json.AnyValueSerializer
+import io.appwrite.json.ListAnyValueSerializer
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * User
  */
+@Serializable
 data class User<T>(
     /**
      * User ID.
      */
-    @SerializedName("\$id")
+    @SerialName("\$id")
     val id: String,
 
     /**
      * User creation date in ISO 8601 format.
      */
-    @SerializedName("\$createdAt")
+    @SerialName("\$createdAt")
     val createdAt: String,
 
     /**
      * User update date in ISO 8601 format.
      */
-    @SerializedName("\$updatedAt")
+    @SerialName("\$updatedAt")
     val updatedAt: String,
 
     /**
      * User name.
      */
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
     /**
      * Hashed user password.
      */
-    @SerializedName("password")
+    @SerialName("password")
     var password: String?,
 
     /**
      * Password hashing algorithm.
      */
-    @SerializedName("hash")
+    @SerialName("hash")
     var hash: String?,
 
     /**
      * Password hashing algorithm configuration.
      */
-    @SerializedName("hashOptions")
-    var hashOptions: Any?,
+    @Serializable(with = AnyValueSerializer::class)
+    @SerialName("hashOptions")
+    var hashOptions: @Contextual Any?,
 
     /**
      * User registration date in ISO 8601 format.
      */
-    @SerializedName("registration")
+    @SerialName("registration")
     val registration: String,
 
     /**
      * User status. Pass `true` for enabled and `false` for disabled.
      */
-    @SerializedName("status")
+    @SerialName("status")
     val status: Boolean,
 
     /**
      * Labels for the user.
      */
-    @SerializedName("labels")
-    val labels: List<Any>,
+    @Serializable(with = ListAnyValueSerializer::class)
+    @SerialName("labels")
+    val labels: List<@Contextual Any>,
 
     /**
      * Password update time in ISO 8601 format.
      */
-    @SerializedName("passwordUpdate")
+    @SerialName("passwordUpdate")
     val passwordUpdate: String,
 
     /**
      * User email address.
      */
-    @SerializedName("email")
+    @SerialName("email")
     val email: String,
 
     /**
      * User phone number in E.164 format.
      */
-    @SerializedName("phone")
+    @SerialName("phone")
     val phone: String,
 
     /**
      * Email verification status.
      */
-    @SerializedName("emailVerification")
+    @SerialName("emailVerification")
     val emailVerification: Boolean,
 
     /**
      * Phone verification status.
      */
-    @SerializedName("phoneVerification")
+    @SerialName("phoneVerification")
     val phoneVerification: Boolean,
 
     /**
      * User preferences as a key-value object
      */
-    @SerializedName("prefs")
+    @SerialName("prefs")
     val prefs: Preferences<T>,
 
     /**
      * Most recent access date in ISO 8601 format. This attribute is only updated again after 24 hours.
      */
-    @SerializedName("accessedAt")
+    @SerialName("accessedAt")
     val accessedAt: String,
 
-) {
+    ) {
     fun toMap(): Map<String, Any> = mapOf(
         "\$id" to id as Any,
         "\$createdAt" to createdAt as Any,
@@ -171,8 +177,7 @@ data class User<T>(
 
         @Suppress("UNCHECKED_CAST")
         fun <T> from(
-            map: Map<String, Any>,
-            nestedType: Class<T>
+            map: Map<String, Any>
         ) = User<T>(
             id = map["\$id"] as String,
             createdAt = map["\$createdAt"] as String,
@@ -189,7 +194,7 @@ data class User<T>(
             phone = map["phone"] as String,
             emailVerification = map["emailVerification"] as Boolean,
             phoneVerification = map["phoneVerification"] as Boolean,
-            prefs = Preferences.from(map = map["prefs"] as Map<String, Any>, nestedType),
+            prefs = Preferences.from(map = map["prefs"] as Map<String, Any>),
             accessedAt = map["accessedAt"] as String,
         )
     }

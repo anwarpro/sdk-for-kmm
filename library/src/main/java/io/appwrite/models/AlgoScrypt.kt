@@ -1,40 +1,41 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * AlgoScrypt
  */
+@Serializable
 data class AlgoScrypt(
     /**
      * Algo type.
      */
-    @SerializedName("type")
+    @SerialName("type")
     val type: String,
 
     /**
      * CPU complexity of computed hash.
      */
-    @SerializedName("costCpu")
+    @SerialName("costCpu")
     val costCpu: Long,
 
     /**
      * Memory complexity of computed hash.
      */
-    @SerializedName("costMemory")
+    @SerialName("costMemory")
     val costMemory: Long,
 
     /**
      * Parallelization of computed hash.
      */
-    @SerializedName("costParallel")
+    @SerialName("costParallel")
     val costParallel: Long,
 
     /**
      * Length used to compute hash.
      */
-    @SerializedName("length")
+    @SerialName("length")
     val length: Long,
 
 ) {

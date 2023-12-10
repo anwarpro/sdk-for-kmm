@@ -1,12 +1,9 @@
 package io.appwrite.services
 
-import android.net.Uri
 import io.appwrite.Client
-import io.appwrite.models.*
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.extensions.classOf
-import okhttp3.Cookie
-import java.io.File
+import io.appwrite.models.*
 
 /**
  * The Teams service allows you to group users of your project and to enable them to share read and write access to your project resources
@@ -40,7 +37,7 @@ class Teams : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.TeamList<T> = {
-            io.appwrite.models.TeamList.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.TeamList.from(map = it as Map<String, Any>)
         }
         return client.call(
             "GET",
@@ -100,7 +97,7 @@ class Teams : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.Team<T> = {
-            io.appwrite.models.Team.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.Team.from(map = it as Map<String, Any>)
         }
         return client.call(
             "POST",
@@ -156,7 +153,7 @@ class Teams : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.Team<T> = {
-            io.appwrite.models.Team.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.Team.from(map = it as Map<String, Any>)
         }
         return client.call(
             "GET",
@@ -208,7 +205,7 @@ class Teams : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.Team<T> = {
-            io.appwrite.models.Team.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.Team.from(map = it as Map<String, Any>)
         }
         return client.call(
             "PUT",
@@ -530,7 +527,7 @@ class Teams : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.Preferences<T> = {
-            io.appwrite.models.Preferences.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.Preferences.from(map = it as Map<String, Any>)
         }
         return client.call(
             "GET",
@@ -582,7 +579,7 @@ class Teams : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.Preferences<T> = {
-            io.appwrite.models.Preferences.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.Preferences.from(map = it as Map<String, Any>)
         }
         return client.call(
             "PUT",

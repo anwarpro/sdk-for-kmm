@@ -1,12 +1,9 @@
 package io.appwrite.services
 
-import android.net.Uri
 import io.appwrite.Client
-import io.appwrite.models.*
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.extensions.classOf
-import okhttp3.Cookie
-import java.io.File
+import io.appwrite.models.*
 
 /**
  * The Databases service allows you to create structured collections of documents, query and filter lists of documents
@@ -43,7 +40,7 @@ class Databases : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.DocumentList<T> = {
-            io.appwrite.models.DocumentList.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.DocumentList.from(map = it as Map<String, Any>)
         }
         return client.call(
             "GET",
@@ -112,7 +109,7 @@ class Databases : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.Document<T> = {
-            io.appwrite.models.Document.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.Document.from(map = it as Map<String, Any>)
         }
         return client.call(
             "POST",
@@ -184,7 +181,7 @@ class Databases : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.Document<T> = {
-            io.appwrite.models.Document.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.Document.from(map = it as Map<String, Any>)
         }
         return client.call(
             "GET",
@@ -256,7 +253,7 @@ class Databases : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.Document<T> = {
-            io.appwrite.models.Document.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.Document.from(map = it as Map<String, Any>)
         }
         return client.call(
             "PATCH",

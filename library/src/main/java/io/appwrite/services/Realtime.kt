@@ -1,21 +1,31 @@
 package io.appwrite.services
 
+import android.util.Log
 import io.appwrite.Client
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.extensions.forEachAsync
-import io.appwrite.extensions.fromJson
-import io.appwrite.extensions.jsonCast
-import io.appwrite.models.*
-import kotlinx.coroutines.*
+import io.appwrite.json.toJsonElement
+import io.appwrite.models.RealtimeCallback
+import io.appwrite.models.RealtimeCode
+import io.appwrite.models.RealtimeResponse
+import io.appwrite.models.RealtimeResponseEvent
+import io.appwrite.models.RealtimeSubscription
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromJsonElement
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import okhttp3.internal.concurrent.TaskRunner
 import okhttp3.internal.ws.RealWebSocket
-import java.util.*
-import android.util.Log
+import java.util.Random
 import kotlin.coroutines.CoroutineContext
 
 class Realtime(client: Client) : Service(client), CoroutineScope {
@@ -24,6 +34,15 @@ class Realtime(client: Client) : Service(client), CoroutineScope {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
+
+    @OptIn(ExperimentalSerializationApi::class)
+    private val json = Json {
+        ignoreUnknownKeys = true
+        explicitNulls = true
+        prettyPrint = true
+        isLenient = true
+        coerceInputValues = true
+    }
 
     private companion object {
         private const val TYPE_ERROR = "error"
@@ -148,7 +167,7 @@ class Realtime(client: Client) : Service(client), CoroutineScope {
             super.onMessage(webSocket, text)
 
             launch(IO) {
-                val message = text.fromJson<RealtimeResponse>()
+                val message = json.decodeFromString<RealtimeResponse>(text)
                 when (message.type) {
                     TYPE_ERROR -> handleResponseError(message)
                     TYPE_EVENT -> handleResponseEvent(message)
@@ -157,11 +176,12 @@ class Realtime(client: Client) : Service(client), CoroutineScope {
         }
 
         private fun handleResponseError(message: RealtimeResponse) {
-            throw message.data.jsonCast<AppwriteException>()
+            throw json.decodeFromJsonElement<AppwriteException>(message.data.toJsonElement())
         }
 
         private suspend fun handleResponseEvent(message: RealtimeResponse) {
-            val event = message.data.jsonCast<RealtimeResponseEvent<Any>>()
+            val event =
+                json.decodeFromJsonElement<RealtimeResponseEvent<Any>>(message.data.toJsonElement())
             if (event.channels.isEmpty()) {
                 return
             }
@@ -170,7 +190,7 @@ class Realtime(client: Client) : Service(client), CoroutineScope {
             }
             activeSubscriptions.values.forEachAsync { subscription ->
                 if (event.channels.any { subscription.channels.contains(it) }) {
-                    event.payload = event.payload.jsonCast(subscription.payloadClass)
+                    event.payload = event.payload
                     subscription.callback(event)
                 }
             }

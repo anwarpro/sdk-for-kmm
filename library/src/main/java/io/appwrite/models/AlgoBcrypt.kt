@@ -1,16 +1,17 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * AlgoBcrypt
  */
+@Serializable
 data class AlgoBcrypt(
     /**
      * Algo type.
      */
-    @SerializedName("type")
+    @SerialName("type")
     val type: String,
 
 ) {

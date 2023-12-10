@@ -1,70 +1,71 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Identity
  */
+@Serializable
 data class Identity(
     /**
      * Identity ID.
      */
-    @SerializedName("\$id")
+    @SerialName("\$id")
     val id: String,
 
     /**
      * Identity creation date in ISO 8601 format.
      */
-    @SerializedName("\$createdAt")
+    @SerialName("\$createdAt")
     val createdAt: String,
 
     /**
      * Identity update date in ISO 8601 format.
      */
-    @SerializedName("\$updatedAt")
+    @SerialName("\$updatedAt")
     val updatedAt: String,
 
     /**
      * User ID.
      */
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String,
 
     /**
      * Identity Provider.
      */
-    @SerializedName("provider")
+    @SerialName("provider")
     val provider: String,
 
     /**
      * ID of the User in the Identity Provider.
      */
-    @SerializedName("providerUid")
+    @SerialName("providerUid")
     val providerUid: String,
 
     /**
      * Email of the User in the Identity Provider.
      */
-    @SerializedName("providerEmail")
+    @SerialName("providerEmail")
     val providerEmail: String,
 
     /**
      * Identity Provider Access Token.
      */
-    @SerializedName("providerAccessToken")
+    @SerialName("providerAccessToken")
     val providerAccessToken: String,
 
     /**
      * The date of when the access token expires in ISO 8601 format.
      */
-    @SerializedName("providerAccessTokenExpiry")
+    @SerialName("providerAccessTokenExpiry")
     val providerAccessTokenExpiry: String,
 
     /**
      * Identity Provider Refresh Token.
      */
-    @SerializedName("providerRefreshToken")
+    @SerialName("providerRefreshToken")
     val providerRefreshToken: String,
 
 ) {

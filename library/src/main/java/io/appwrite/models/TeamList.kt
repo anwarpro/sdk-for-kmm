@@ -1,22 +1,23 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Teams List
  */
+@Serializable
 data class TeamList<T>(
     /**
      * Total number of teams documents that matched your query.
      */
-    @SerializedName("total")
+    @SerialName("total")
     val total: Long,
 
     /**
      * List of teams.
      */
-    @SerializedName("teams")
+    @SerialName("teams")
     val teams: List<Team<T>>,
 
 ) {
@@ -36,11 +37,10 @@ data class TeamList<T>(
 
         @Suppress("UNCHECKED_CAST")
         fun <T> from(
-            map: Map<String, Any>,
-            nestedType: Class<T>
+            map: Map<String, Any>
         ) = TeamList<T>(
             total = (map["total"] as Number).toLong(),
-            teams = (map["teams"] as List<Map<String, Any>>).map { Team.from(map = it, nestedType) },
+            teams = (map["teams"] as List<Map<String, Any>>).map { Team.from(map = it) },
         )
     }
 }

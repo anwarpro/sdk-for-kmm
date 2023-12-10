@@ -1,25 +1,26 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Documents List
  */
+@Serializable
 data class DocumentList<T>(
     /**
      * Total number of documents documents that matched your query.
      */
-    @SerializedName("total")
+    @SerialName("total")
     val total: Long,
 
     /**
      * List of documents.
      */
-    @SerializedName("documents")
+    @SerialName("documents")
     val documents: List<Document<T>>,
 
-) {
+    ) {
     fun toMap(): Map<String, Any> = mapOf(
         "total" to total as Any,
         "documents" to documents.map { it.toMap() } as Any,
@@ -36,11 +37,10 @@ data class DocumentList<T>(
 
         @Suppress("UNCHECKED_CAST")
         fun <T> from(
-            map: Map<String, Any>,
-            nestedType: Class<T>
+            map: Map<String, Any>
         ) = DocumentList<T>(
             total = (map["total"] as Number).toLong(),
-            documents = (map["documents"] as List<Map<String, Any>>).map { Document.from(map = it, nestedType) },
+            documents = (map["documents"] as List<Map<String, Any>>).map { Document.from(map = it) },
         )
     }
 }

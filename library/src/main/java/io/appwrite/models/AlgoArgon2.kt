@@ -1,34 +1,35 @@
 package io.appwrite.models
 
-import com.google.gson.annotations.SerializedName
-import io.appwrite.extensions.jsonCast
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * AlgoArgon2
  */
+@Serializable
 data class AlgoArgon2(
     /**
      * Algo type.
      */
-    @SerializedName("type")
+    @SerialName("type")
     val type: String,
 
     /**
      * Memory used to compute hash.
      */
-    @SerializedName("memoryCost")
+    @SerialName("memoryCost")
     val memoryCost: Long,
 
     /**
      * Amount of time consumed to compute hash
      */
-    @SerializedName("timeCost")
+    @SerialName("timeCost")
     val timeCost: Long,
 
     /**
      * Number of threads used to compute hash.
      */
-    @SerializedName("threads")
+    @SerialName("threads")
     val threads: Long,
 
 ) {

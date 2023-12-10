@@ -1,23 +1,21 @@
 package io.appwrite.services
 
 import android.net.Uri
+import androidx.activity.ComponentActivity
 import io.appwrite.Client
-import io.appwrite.models.*
+import io.appwrite.WebAuthComponent
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.extensions.classOf
-import io.appwrite.WebAuthComponent
-import androidx.activity.ComponentActivity
+import io.appwrite.models.*
 import okhttp3.Cookie
-import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
-import java.io.File
 
 /**
  * The Account service allows you to authenticate and manage a user account.
-**/
+ **/
 class Account : Service {
 
-    public constructor (client: Client) : super(client) { }
+    public constructor (client: Client) : super(client) {}
 
     /**
      * Get account
@@ -37,7 +35,7 @@ class Account : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.User<T> = {
-            io.appwrite.models.User.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.User.from(map = it as Map<String, Any>)
         }
         return client.call(
             "GET",
@@ -93,7 +91,7 @@ class Account : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.User<T> = {
-            io.appwrite.models.User.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.User.from(map = it as Map<String, Any>)
         }
         return client.call(
             "POST",
@@ -155,7 +153,7 @@ class Account : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.User<T> = {
-            io.appwrite.models.User.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.User.from(map = it as Map<String, Any>)
         }
         return client.call(
             "PATCH",
@@ -334,7 +332,7 @@ class Account : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.User<T> = {
-            io.appwrite.models.User.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.User.from(map = it as Map<String, Any>)
         }
         return client.call(
             "PATCH",
@@ -387,7 +385,7 @@ class Account : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.User<T> = {
-            io.appwrite.models.User.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.User.from(map = it as Map<String, Any>)
         }
         return client.call(
             "PATCH",
@@ -443,7 +441,7 @@ class Account : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.User<T> = {
-            io.appwrite.models.User.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.User.from(map = it as Map<String, Any>)
         }
         return client.call(
             "PATCH",
@@ -492,7 +490,7 @@ class Account : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.Preferences<T> = {
-            io.appwrite.models.Preferences.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.Preferences.from(map = it as Map<String, Any>)
         }
         return client.call(
             "GET",
@@ -538,7 +536,7 @@ class Account : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.User<T> = {
-            io.appwrite.models.User.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.User.from(map = it as Map<String, Any>)
         }
         return client.call(
             "PATCH",
@@ -875,11 +873,13 @@ class Account : Service {
                 null -> {
                     return@forEach
                 }
+
                 is List<*> -> {
                     apiQuery.add("${it.key}[]=${it.value.toString()}")
                 }
+
                 else -> {
-                   apiQuery.add("${it.key}=${it.value.toString()}")
+                    apiQuery.add("${it.key}=${it.value.toString()}")
                 }
             }
         }
@@ -905,7 +905,7 @@ class Account : Service {
                 .domain(Uri.parse(client.endPoint).host!!)
                 .httpOnly()
                 .build()
-            
+
             client.http.cookieJar.saveFromResponse(
                 client.endPoint.toHttpUrl(),
                 listOf(cookie)
@@ -1099,7 +1099,7 @@ class Account : Service {
             "content-type" to "application/json",
         )
         val converter: (Any) -> io.appwrite.models.User<T> = {
-            io.appwrite.models.User.from(map = it as Map<String, Any>, nestedType)
+            io.appwrite.models.User.from(map = it as Map<String, Any>)
         }
         return client.call(
             "PATCH",
