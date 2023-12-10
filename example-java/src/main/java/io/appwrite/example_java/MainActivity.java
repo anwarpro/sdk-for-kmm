@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Client client = new Client(getApplicationContext())
+        Client client = new Client()
                 .setEndpoint("https://demo.appwrite.io/v1")
                 .setProject("6070749e6acd4");
 

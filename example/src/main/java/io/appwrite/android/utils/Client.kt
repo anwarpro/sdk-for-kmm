@@ -7,7 +7,7 @@ object Client {
     lateinit var client : Client
 
     fun create(context: Context) {
-        client = Client(context)
+        client = Client()
                 .setEndpoint("https://cloud.appwrite.io/v1")
                 .setProject("654078c16d6872584c53")
 

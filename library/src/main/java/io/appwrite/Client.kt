@@ -1,7 +1,6 @@
 package io.appwrite
 
-import android.content.Context
-import android.content.pm.PackageManager
+import Appwrite_Android_SDK.library.MyConfig
 import io.appwrite.cookies.stores.CustomCookiesStorage
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.extensions.parseResponse
@@ -52,7 +51,6 @@ import javax.net.ssl.X509TrustManager
 import kotlin.coroutines.CoroutineContext
 
 class Client @JvmOverloads constructor(
-    context: Context,
     var endPoint: String = "https://HOSTNAME/v1",
     var endPointRealtime: String? = null,
     private var selfSigned: Boolean = false
@@ -83,20 +81,18 @@ class Client @JvmOverloads constructor(
     val config: MutableMap<String, String>
 
     private val appVersion by lazy {
-        try {
-            val pInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            return@lazy pInfo.versionName
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-            return@lazy ""
-        }
+        MyConfig.APP_VERSION
     }
 
     init {
         defaultHeaders = mutableMapOf(
             "content-type" to "application/json",
-            "origin" to "appwrite-android://${context.packageName}",
-            "user-agent" to "${context.packageName}/${appVersion}, ${System.getProperty("http.agent")}",
+            "origin" to "appwrite-android://${MyConfig.APP_PACKAGE_NAME}",
+            "user-agent" to "${MyConfig.APP_PACKAGE_NAME}/${appVersion}, ${
+                System.getProperty(
+                    "http.agent"
+                )
+            }",
             "x-sdk-name" to "Android",
             "x-sdk-platform" to "client",
             "x-sdk-language" to "android",
