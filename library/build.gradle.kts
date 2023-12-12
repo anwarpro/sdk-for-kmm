@@ -1,9 +1,8 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsCompose)
 }
 
@@ -43,7 +42,6 @@ kotlin {
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
-            api(project(":library"))
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -60,11 +58,8 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        applicationId = "io.appwrite"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
     }
     packaging {
         resources {
@@ -82,17 +77,5 @@ android {
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
-    }
-}
-
-compose.desktop {
-    application {
-        mainClass = "MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "io.appwrite"
-            packageVersion = "1.0.0"
-        }
     }
 }
