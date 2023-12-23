@@ -1,4 +1,4 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -22,9 +22,7 @@ kotlin {
     jvm("desktop")
 
     listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
+        iosX64(), iosArm64(), iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
@@ -97,10 +95,20 @@ buildConfig {
 }
 
 group = "com.helloanwar"
-version = "4.1.0"
+version = "4.0.1"
+
+val GITHUB_USER: String by project
+val GITHUB_TOKEN: String by project
 
 publishing {
     repositories {
-        mavenLocal()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/anwarpro/sdk-for-kmm")
+            credentials {
+                username = GITHUB_USER
+                password = GITHUB_TOKEN
+            }
+        }
     }
 }

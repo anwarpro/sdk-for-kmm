@@ -43,8 +43,8 @@ kotlin {
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
-            api(project(":library"))
-//            implementation("com.helloanwar:library:4.1.0")
+//            api(project(":sdk-for-kmm"))
+            implementation("com.helloanwar:sdk-for-kmm:4.0.1")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

@@ -10,13 +10,20 @@ pluginManagement {
     }
 }
 
+
 dependencyResolutionManagement {
     repositories {
         google()
-        mavenLocal()
         mavenCentral()
+        maven {
+            url = uri("https://maven.pkg.github.com/anwarpro/sdk-for-kmm")
+        }
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
 
 include(":composeApp", ":library")
+
+rootProject.children.forEach {
+    it.name = if (it.name == "library") "sdk-for-kmm" else it.name
+}
