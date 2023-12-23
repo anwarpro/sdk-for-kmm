@@ -8,11 +8,11 @@ actual class InputFile private actual constructor() {
     actual var data: Any? = null
 
     companion object {
-        fun fromFile(file: File) = InputFile().apply {
+        fun fromFile(file: String) = InputFile().apply {
             sourceType = "file"
         }
 
-        fun fromPath(path: String): InputFile = fromFile(File(path)).apply {
+        fun fromPath(path: String): InputFile = fromFile(path).apply {
             sourceType = "path"
         }
 

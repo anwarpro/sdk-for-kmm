@@ -52,6 +52,7 @@ kotlin {
             implementation(libs.multiplatform.settings)
             implementation(libs.touchlab.kermit)
             implementation(libs.kotlinx.atomicfu)
+//            implementation("com.squareup.okio:okio:3.7.0")
         }
         desktopMain.dependencies {
             implementation(libs.ktor.client.okhttp)
