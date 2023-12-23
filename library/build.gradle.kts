@@ -38,19 +38,11 @@ kotlin {
         }
 
         androidMain.dependencies {
-//            implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.browser)
         }
         commonMain.dependencies {
-//            implementation(compose.runtime)
-//            implementation(compose.foundation)
-//            implementation(compose.material)
-//            implementation(compose.ui)
-            @OptIn(ExperimentalComposeLibrary::class)
-//            implementation(compose.components.resources)
-
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
@@ -60,7 +52,6 @@ kotlin {
             implementation(libs.kotlinx.atomicfu)
         }
         desktopMain.dependencies {
-//            implementation(compose.desktop.currentOs)
             implementation(libs.ktor.client.okhttp)
         }
     }
@@ -91,9 +82,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    dependencies {
-        debugImplementation(libs.compose.ui.tooling)
     }
 }
 
