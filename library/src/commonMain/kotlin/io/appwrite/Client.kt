@@ -1,6 +1,6 @@
 package io.appwrite
 
-import Appwrite.library.MyConfig
+import com.helloanwar.library.MyConfig
 import io.appwrite.cookies.stores.CustomCookiesStorage
 import io.appwrite.exceptions.AppwriteException
 import io.appwrite.extensions.parseResponse

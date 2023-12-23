@@ -6,6 +6,7 @@ plugins {
 //    alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.buildconfig)
+    id("maven-publish")
 }
 
 kotlin {
@@ -15,6 +16,7 @@ kotlin {
                 jvmTarget = "11"
             }
         }
+        publishLibraryVariants("release", "debug")
     }
 
     jvm("desktop")
@@ -90,4 +92,13 @@ buildConfig {
     useKotlinOutput()
     buildConfigField("APP_VERSION", "4.0.1")
     buildConfigField("APP_PACKAGE_NAME", "io.appwrite.android")
+}
+
+group = "com.helloanwar"
+version = "4.1.0"
+
+publishing {
+    repositories {
+        mavenLocal()
+    }
 }

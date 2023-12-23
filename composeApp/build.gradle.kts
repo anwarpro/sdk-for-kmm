@@ -43,10 +43,12 @@ kotlin {
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
-            api(project(":library"))
+//            api(project(":library"))
+            implementation("com.helloanwar:library:4.1.0")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+
         }
     }
 }
