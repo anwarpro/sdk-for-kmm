@@ -3,14 +3,16 @@ import org.jetbrains.compose.ExperimentalComposeLibrary
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrainsCompose)
+//    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.buildconfig)
 }
 
 kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
@@ -31,20 +33,35 @@ kotlin {
     sourceSets {
         val desktopMain by getting
 
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+
         androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
+//            implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.browser)
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.ui)
+//            implementation(compose.runtime)
+//            implementation(compose.foundation)
+//            implementation(compose.material)
+//            implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.components.resources)
+//            implementation(compose.components.resources)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+
+            implementation(libs.multiplatform.settings)
+            implementation(libs.touchlab.kermit)
+            implementation(libs.kotlinx.atomicfu)
         }
         desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
+//            implementation(compose.desktop.currentOs)
+            implementation(libs.ktor.client.okhttp)
         }
     }
 }
@@ -72,10 +89,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
+}
+
+buildConfig {
+    className("MyConfig")
+    useKotlinOutput()
+    buildConfigField("APP_VERSION", "4.0.1")
+    buildConfigField("APP_PACKAGE_NAME", "io.appwrite.android")
 }
