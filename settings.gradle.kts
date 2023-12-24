@@ -10,13 +10,14 @@ pluginManagement {
     }
 }
 
-
 dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
         maven {
-            url = uri("https://maven.pkg.github.com/anwarpro/sdk-for-kmm")
+            url = uri(
+                "https://anwarpro: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@maven.pkg.github.com/anwarpro/sdk-for-kmm"
+            )
         }
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
